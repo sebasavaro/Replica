@@ -1,0 +1,7 @@
+{
+  "name": "Ferez Automotores Replica",
+  "description": "A high-fidelity replica of the Ferez Automotores car dealership website, featuring a vehicle showcase, filtering, and a premium aesthetic.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
