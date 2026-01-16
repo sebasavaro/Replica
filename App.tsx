@@ -86,15 +86,15 @@ function App() {
 
   const renderCatalogo = () => (
     <section className="max-w-7xl mx-auto px-4 py-12 animate-in fade-in duration-700">
-      <div className="bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-pink-100 p-4 md:p-8 mb-16 sticky top-24 z-30 backdrop-blur-xl bg-white/95">
+      <div className="bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-pink-100 p-6 md:p-8 mb-16 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
           <div className="space-y-3">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 ml-4">¿Qué buscás?</span>
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 ml-4">¿Qué buscás?</span>
             <div className="relative group">
               <input 
                 type="text" 
                 placeholder="Marca o modelo..."
-                className="w-full bg-pink-50/50 border-2 border-pink-100 rounded-2xl py-4 px-12 text-sm font-bold text-gray-800 outline-none focus:border-[#E97D8E] focus:bg-white transition-all shadow-inner"
+                className="w-full bg-pink-50/30 border-2 border-pink-100 rounded-2xl py-4 px-12 text-sm font-bold text-gray-800 outline-none focus:border-[#E97D8E] focus:bg-white transition-all shadow-inner"
                 value={filters.search}
                 onChange={(e) => setFilters({...filters, search: e.target.value})}
               />
@@ -102,9 +102,9 @@ function App() {
             </div>
           </div>
           <div className="space-y-3">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 ml-4">Marca</span>
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 ml-4">Marca</span>
             <select 
-              className="w-full bg-pink-50/50 border-2 border-pink-100 rounded-2xl py-4 px-5 text-sm font-black text-gray-800 outline-none cursor-pointer focus:border-[#E97D8E] focus:bg-white transition-all shadow-inner"
+              className="w-full bg-pink-50/30 border-2 border-pink-100 rounded-2xl py-4 px-5 text-sm font-black text-gray-800 outline-none cursor-pointer focus:border-[#E97D8E] focus:bg-white transition-all shadow-inner"
               value={filters.brand}
               onChange={(e) => setFilters({...filters, brand: e.target.value})}
             >
@@ -113,8 +113,8 @@ function App() {
             </select>
           </div>
           <div className="space-y-3">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 ml-4">Tipo de vehículo</span>
-            <div className="flex bg-pink-100/50 p-1.5 rounded-2xl border-2 border-pink-100 h-[60px] shadow-inner">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 ml-4">Tipo de vehículo</span>
+            <div className="flex bg-pink-100/30 p-1.5 rounded-2xl border-2 border-pink-100 h-[60px] shadow-inner">
               {['', 'Autos', 'Motos'].map(cat => (
                 <button 
                   key={cat}
@@ -127,9 +127,9 @@ function App() {
             </div>
           </div>
           <div className="space-y-3">
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 ml-4">Ordenar por</span>
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-400 ml-4">Ordenar por</span>
             <select 
-              className="w-full bg-pink-50/50 border-2 border-pink-100 rounded-2xl py-4 px-5 text-sm font-black text-gray-800 outline-none cursor-pointer focus:border-[#E97D8E] focus:bg-white transition-all shadow-inner"
+              className="w-full bg-pink-50/30 border-2 border-pink-100 rounded-2xl py-4 px-5 text-sm font-black text-gray-800 outline-none cursor-pointer focus:border-[#E97D8E] focus:bg-white transition-all shadow-inner"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
             >
@@ -141,10 +141,17 @@ function App() {
           </div>
         </div>
       </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
         {filteredVehicles.map(v => (
           <VehicleCard key={v.id} vehicle={v} onSelect={navigateToDetail} />
         ))}
+        {filteredVehicles.length === 0 && (
+          <div className="col-span-full py-20 text-center">
+            <i className="fa-solid fa-car-on text-6xl text-pink-100 mb-6"></i>
+            <h3 className="text-2xl font-black text-gray-300 uppercase tracking-tighter">No encontramos vehículos con esos filtros</h3>
+          </div>
+        )}
       </div>
     </section>
   );
@@ -390,7 +397,6 @@ function App() {
           </div>
           
           <div className="relative max-w-4xl mx-auto">
-            {/* Línea vertical central mejorada */}
             <div className="absolute left-[28px] md:left-1/2 md:-translate-x-1/2 top-10 bottom-10 w-1 bg-gradient-to-b from-pink-50 via-pink-200 to-pink-50 hidden md:block"></div>
             <div className="absolute left-[28px] top-10 bottom-10 w-1 bg-pink-100 md:hidden"></div>
 
@@ -404,7 +410,6 @@ function App() {
                 { n: "6", t: "¡Retiro de Unidad!", d: "¡Felicidades! Ya podés subirte a tu auto y empezar a disfrutarlo. Entrega inmediata garantizada.", i: "fa-key" }
               ].map((step, idx) => (
                 <div key={idx} className={`flex items-center gap-8 md:gap-0 relative ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
-                  {/* Contenido del paso */}
                   <div className="flex-1 md:w-1/2">
                     <div className={`bg-pink-50/30 p-8 rounded-[2.5rem] border-2 border-transparent hover:border-pink-200 hover:bg-white hover:shadow-xl transition-all duration-500 group ${idx % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
                       <div className="flex items-center gap-6">
@@ -419,14 +424,12 @@ function App() {
                     </div>
                   </div>
 
-                  {/* Rombo Central - Posicionamiento absoluto para alineación perfecta */}
                   <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex items-center justify-center z-10">
                     <div className="w-14 h-14 bg-white border-4 border-[#E97D8E] rotate-45 flex items-center justify-center shadow-lg hover:bg-[#E97D8E] group transition-all duration-300">
                       <span className="-rotate-45 text-gray-900 group-hover:text-white font-black text-lg">{step.n}</span>
                     </div>
                   </div>
                   
-                  {/* Espaciador para desktop */}
                   <div className="hidden md:block md:w-1/2"></div>
                 </div>
               ))}
@@ -476,31 +479,39 @@ function App() {
     <div className="min-h-screen flex flex-col bg-white">
       <header className="bg-white/95 backdrop-blur-xl sticky top-0 w-full z-50 border-b-2 border-pink-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <button onClick={() => navigateToPage('Inicio')} className="flex items-center gap-4 group">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-xl border-2 border-pink-50 overflow-hidden transition-all group-hover:scale-110 group-hover:border-[#E97D8E]">
+          <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+            <button onClick={() => navigateToPage('Inicio')} className="flex items-center gap-2 md:gap-4 group">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-xl border-2 border-pink-50 overflow-hidden transition-all group-hover:scale-110 group-hover:border-[#E97D8E]">
                 <img 
                   src={directLogoUrl} 
                   alt="Logo" 
                   className="w-full h-full object-cover rounded-full" 
                 />
               </div>
-              <span className="hidden sm:block text-2xl md:text-3xl font-black tracking-tighter text-gray-900 uppercase">AUTODREAM</span>
+              <span className="hidden sm:block text-xl md:text-3xl font-black tracking-tighter text-gray-900 uppercase">AUTODREAM</span>
             </button>
           </div>
-          <nav className="flex items-center gap-6 md:gap-12 text-[10px] md:text-[13px] font-black uppercase tracking-[0.25em] text-gray-600">
-            {(['Inicio', 'Catálogo', 'Financiación', 'Vendé tu Auto'] as const).map((page) => (
-              <button 
-                key={page}
-                onClick={() => navigateToPage(page)}
-                className={`relative py-2 transition-all hover:text-[#E97D8E] ${currentPage === page ? 'text-gray-900 scale-105 font-black' : ''}`}
-              >
-                {page}
-                {(currentPage === page || (currentPage === 'Detalle' && page === 'Catálogo')) && (
-                  <span className="absolute -bottom-1 left-0 w-full h-1 bg-[#E97D8E] rounded-full animate-in slide-in-from-left-4 duration-500"></span>
-                )}
-              </button>
-            ))}
+          
+          {/* Navegación Inteligente: Desktop Alineado Derecha, Mobile Scroll Lateral */}
+          <nav className="relative overflow-hidden md:overflow-visible flex items-center">
+            {/* Contenedor de scroll sólo para móvil */}
+            <div className="flex items-center gap-4 md:gap-12 overflow-x-auto md:overflow-x-visible no-scrollbar scroll-smooth whitespace-nowrap px-4 md:px-0 md:justify-end">
+              {(['Inicio', 'Catálogo', 'Financiación', 'Vendé tu Auto'] as const).map((page) => (
+                <button 
+                  key={page}
+                  onClick={() => navigateToPage(page)}
+                  className={`relative py-3 px-1 text-[10px] md:text-[13px] font-black uppercase tracking-[0.15em] md:tracking-[0.25em] transition-all hover:text-[#E97D8E] flex-shrink-0 ${currentPage === page ? 'text-gray-900 scale-105 font-black' : 'text-gray-500'}`}
+                >
+                  {page}
+                  {(currentPage === page || (currentPage === 'Detalle' && page === 'Catálogo')) && (
+                    <span className="absolute bottom-1 left-0 w-full h-0.5 md:h-1 bg-[#E97D8E] rounded-full animate-in slide-in-from-left-4 duration-500"></span>
+                  )}
+                </button>
+              ))}
+            </div>
+            {/* Sombras de desvanecimiento exclusivas para móvil */}
+            <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none md:hidden"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none md:hidden"></div>
           </nav>
         </div>
       </header>
@@ -511,9 +522,9 @@ function App() {
         {currentPage === 'Financiación' && renderFinanciacion()}
         {currentPage === 'Vendé tu Auto' && renderVende()}
       </div>
-      <footer className="bg-gray-900 text-white pt-32 pb-16 rounded-t-[6rem] mt-32 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
+      <footer className="bg-gray-900 text-white pt-32 pb-16 rounded-t-[4rem] md:rounded-t-[6rem] mt-32 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
         <div className="max-w-7xl mx-auto px-4 text-center md:text-left">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-24 mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 mb-24">
             <div className="space-y-8">
               <div className="flex items-center gap-4 justify-center md:justify-start">
                 <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-0.5 overflow-hidden shadow-xl">
@@ -523,10 +534,10 @@ function App() {
               </div>
               <p className="text-gray-400 font-bold text-lg max-w-sm mx-auto md:mx-0 leading-relaxed">Donde tus sueños se ponen en marcha. Líderes en vehículos seleccionados en Córdoba.</p>
             </div>
-            <div className="grid grid-cols-2 gap-12">
+            <div className="grid grid-cols-2 gap-8 md:gap-12">
               <div>
-                <h4 className="text-[#E97D8E] font-black text-xs uppercase tracking-[0.3em] mb-10">Explorar</h4>
-                <ul className="space-y-6 text-[15px] text-gray-400 font-bold">
+                <h4 className="text-[#E97D8E] font-black text-xs uppercase tracking-[0.3em] mb-6 md:mb-10">Explorar</h4>
+                <ul className="space-y-4 md:space-y-6 text-[14px] md:text-[15px] text-gray-400 font-bold">
                   <li><button onClick={() => navigateToPage('Inicio')} className="hover:text-white transition-colors">Inicio</button></li>
                   <li><button onClick={() => navigateToPage('Catálogo')} className="hover:text-white transition-colors">Catálogo</button></li>
                   <li><button onClick={() => navigateToPage('Financiación')} className="hover:text-white transition-colors">Financiación</button></li>
@@ -534,14 +545,14 @@ function App() {
                 </ul>
               </div>
               <div>
-                <h4 className="text-[#E97D8E] font-black text-xs uppercase tracking-[0.3em] mb-10">Contacto</h4>
-                <p className="text-[15px] text-gray-400 font-bold leading-relaxed">
+                <h4 className="text-[#E97D8E] font-black text-xs uppercase tracking-[0.3em] mb-6 md:mb-10">Contacto</h4>
+                <p className="text-[14px] md:text-[15px] text-gray-400 font-bold leading-relaxed">
                   Bv. Los Granaderos 2565, Córdoba<br/>
-                  <span className="text-white block mt-6 text-xl font-black">+54 351 000 0000</span>
+                  <span className="text-white block mt-4 md:mt-6 text-lg md:text-xl font-black">+54 351 000 0000</span>
                 </p>
               </div>
             </div>
-            <div className="rounded-[3rem] overflow-hidden h-60 border-4 border-gray-800 shadow-2xl">
+            <div className="rounded-[2rem] md:rounded-[3rem] overflow-hidden h-48 md:h-60 border-4 border-gray-800 shadow-2xl">
                <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3273.302132778823!2d-64.2078185!3d-31.376544799999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432997204ba0603%3A0x5955f369d6f3cc7e!2sAutodream!5e1!3m2!1ses!2sar!4v1768559380426!5m2!1ses!2sar" 
                 className="w-full h-full grayscale opacity-50 hover:opacity-100 transition-opacity" 
@@ -549,11 +560,15 @@ function App() {
               ></iframe>
             </div>
           </div>
-          <div className="text-center pt-16 border-t-2 border-gray-800 text-[11px] font-black text-gray-600 uppercase tracking-[0.5em]">
+          <div className="text-center pt-16 border-t-2 border-gray-800 text-[10px] md:text-[11px] font-black text-gray-600 uppercase tracking-[0.3em] md:tracking-[0.5em]">
             © 2026 AUTODREAM | Córdoba, Argentina
           </div>
         </div>
       </footer>
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </div>
   );
 }
