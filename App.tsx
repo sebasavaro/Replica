@@ -435,7 +435,7 @@ function App() {
       <section className="relative h-[85vh] w-full flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&q=80&w=2000" 
+            src={getDirectImageUrl("1fBPhLNW13yQuDXeYtgwi5868edKhWLGD")} 
             alt="Financing" 
             className="w-full h-full object-cover"
           />
