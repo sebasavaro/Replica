@@ -61,11 +61,10 @@ export const VEHICLES: Vehicle[] = [
 export const BRANDS = ['BMW', 'Chevrolet', 'Fiat', 'Honda', 'Toyota', 'Volkswagen', 'Kawasaki', 'Yamaha'];
 
 export const CIRCULAR_CATEGORIES = [
-  { name: 'Autos', icon: 'fa-car' },
-  { name: 'Motos', icon: 'fa-motorcycle' },
+  { name: 'Bancos', icon: 'fa-building-columns' },
   { name: 'Financiación', icon: 'fa-hand-holding-dollar' },
-  { name: 'Seguros', icon: 'fa-shield-halved' },
-  { name: 'Contacto', icon: 'fa-paper-plane' }
+  { name: 'Autos', icon: 'fa-car' },
+  { name: 'Motos', icon: 'fa-motorcycle' }
 ];
 
 export const SELLERS = [
