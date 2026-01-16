@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Vehicle } from '../types';
+import { getDirectImageUrl } from '../App';
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -28,7 +29,7 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({ vehicle, onSelect }) =
       {/* Imagen con Carrusel */}
       <div className="relative overflow-hidden aspect-[4/3] bg-gray-100">
         <img 
-          src={vehicle.images[currentImgIndex]} 
+          src={getDirectImageUrl(vehicle.images[currentImgIndex])} 
           alt={`${vehicle.brand} ${vehicle.model}`} 
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
         />

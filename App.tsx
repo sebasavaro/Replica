@@ -6,6 +6,23 @@ import { FilterState, Vehicle } from './types';
 
 type Page = 'Inicio' | 'Catálogo' | 'Financiación' | 'Vendé tu Auto' | 'Detalle';
 
+// Función de utilidad para transformar IDs de Drive o URLs en enlaces directos de imagen
+export const getDirectImageUrl = (urlOrId: string) => {
+  if (!urlOrId) return '';
+  // Si parece un ID de Drive (longitud típica y sin protocolos)
+  if (!urlOrId.startsWith('http') && urlOrId.length > 20) {
+    return `https://lh3.googleusercontent.com/d/${urlOrId}`;
+  }
+  // Si es una URL de Drive completa
+  if (urlOrId.includes('drive.google.com')) {
+    const idMatch = urlOrId.match(/\/d\/([^/]+)/) || urlOrId.match(/id=([^&]+)/);
+    if (idMatch && idMatch[1]) {
+      return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+    }
+  }
+  return urlOrId;
+};
+
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Inicio');
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
@@ -18,23 +35,11 @@ function App() {
   });
 
   const [sortOrder, setSortOrder] = useState('aleatorio');
-  
-  // Estado para el carrusel de recomendados
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage, selectedVehicle]);
-
-  const getDirectImageUrl = (url: string) => {
-    if (url.includes('drive.google.com')) {
-      const idMatch = url.match(/\/d\/([^/]+)/) || url.match(/id=([^&]+)/);
-      if (idMatch && idMatch[1]) {
-        return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
-      }
-    }
-    return url;
-  };
 
   const directLogoUrl = getDirectImageUrl(BRAND_LOGO_URL);
 
@@ -172,7 +177,6 @@ function App() {
         </div>
       </section>
 
-      {/* Ítems de Categoría - Contraste mejorado */}
       <section className="py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-12 md:gap-24">
@@ -203,7 +207,6 @@ function App() {
         </div>
       </section>
 
-      {/* Carrusel de Unidades Recomendadas */}
       <section className="max-w-7xl mx-auto px-4 py-24 overflow-hidden border-t-2 border-pink-50 bg-white">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
           <div>
@@ -216,14 +219,12 @@ function App() {
             <button 
               onClick={prevCarousel}
               className="w-14 h-14 rounded-2xl border-2 border-pink-100 flex items-center justify-center text-[#E97D8E] hover:bg-[#E97D8E] hover:text-white transition-all shadow-sm active:scale-95"
-              aria-label="Anterior"
             >
               <i className="fa-solid fa-arrow-left text-xl"></i>
             </button>
             <button 
               onClick={nextCarousel}
               className="w-14 h-14 rounded-2xl border-2 border-pink-100 flex items-center justify-center text-[#E97D8E] hover:bg-[#E97D8E] hover:text-white transition-all shadow-sm active:scale-95"
-              aria-label="Siguiente"
             >
               <i className="fa-solid fa-arrow-right text-xl"></i>
             </button>
@@ -244,7 +245,6 @@ function App() {
         </div>
       </section>
 
-      {/* Sección Vendedores */}
       <section className="py-24 bg-pink-50/30 border-t-2 border-pink-50">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h3 className="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-16">
@@ -284,7 +284,7 @@ function App() {
           <div className="space-y-8">
             <div className="rounded-[4rem] overflow-hidden shadow-[0_30px_70px_-20px_rgba(0,0,0,0.2)] border-4 border-white aspect-[4/3] bg-gray-100">
               <img 
-                src={selectedVehicle.images[activeImgIndex]} 
+                src={getDirectImageUrl(selectedVehicle.images[activeImgIndex])} 
                 className="w-full h-full object-cover animate-in fade-in zoom-in-95 duration-700" 
                 alt={selectedVehicle.model} 
               />
@@ -297,7 +297,7 @@ function App() {
                     onClick={() => setActiveImgIndex(idx)}
                     className={`w-24 h-24 rounded-[1.5rem] overflow-hidden border-4 transition-all shadow-md ${activeImgIndex === idx ? 'border-[#E97D8E] scale-110 shadow-xl' : 'border-white opacity-60 hover:opacity-100'}`}
                   >
-                    <img src={img} className="w-full h-full object-cover" alt={`Miniatura ${idx}`} />
+                    <img src={getDirectImageUrl(img)} className="w-full h-full object-cover" alt={`Miniatura ${idx}`} />
                   </button>
                 ))}
               </div>

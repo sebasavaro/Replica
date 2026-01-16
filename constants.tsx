@@ -6,16 +6,16 @@ export const BRAND_LOGO_URL = "https://drive.google.com/file/d/1AbVPDPBJhuh6ACBv
 export const VEHICLES: Vehicle[] = [
   {
     id: 'P1948',
-    brand: 'Chevrolet',
-    model: 'S10 2.8TD 4X4 LTZ AT',
-    year: 2018,
+    brand: 'Renault',
+    model: 'Logan',
+    year: 2024,
     price: 33000000,
     currency: 'ARS',
     kilometers: 180689,
     fuel: 'Diesel',
     transmission: 'Automática',
     images: [
-      'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800',
+      '1drui2WjblQPeLvdL-38nbdL9LslYI7-U',
       'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800'
     ],
