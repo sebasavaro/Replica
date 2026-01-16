@@ -370,17 +370,22 @@ function App() {
         </div>
         <div className="container mx-auto px-6 relative z-10 text-white max-w-7xl">
           <div className="max-w-4xl animate-in slide-in-from-left duration-1000">
-            <h2 className="text-6xl md:text-9xl font-black uppercase leading-[0.95] tracking-tighter mb-10 overflow-visible">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95] tracking-tighter mb-10 overflow-visible">
               FINANCIÁ TU <br/><span className="text-[#E97D8E]">NUEVO AUTO</span>
             </h2>
             <p className="text-xl md:text-2xl mb-14 font-medium text-gray-200 leading-relaxed max-w-lg drop-shadow-md">
               Alcanzá el vehículo que querés con planes a tu medida. Trabajamos con los bancos líderes para brindarte la mejor tasa del mercado.
             </p>
             <div className="flex flex-wrap gap-6">
-              <a href="#pasos-financia" className="bg-[#E97D8E] hover:bg-white hover:text-gray-900 text-white px-12 py-6 rounded-2xl font-black uppercase tracking-widest transition-all shadow-2xl active:scale-95 text-sm">
+              <a 
+                href="#pasos-financia" 
+                className="bg-[#E97D8E] text-white px-12 py-5 rounded-full font-black uppercase tracking-[0.2em] hover:bg-white hover:text-[#E97D8E] transition-all border-2 border-[#E97D8E] shadow-xl text-sm active:scale-95"
+              >
                 Ver Proceso
               </a>
-              <button className="bg-white/10 backdrop-blur-xl border-2 border-white/40 text-white px-12 py-6 rounded-2xl font-black uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all text-sm">
+              <button 
+                className="bg-white/10 backdrop-blur-xl border-2 border-white/40 text-white px-12 py-5 rounded-full font-black uppercase tracking-[0.2em] hover:bg-white hover:text-[#E97D8E] transition-all shadow-xl text-sm active:scale-95"
+              >
                 Simular Crédito
               </button>
             </div>
@@ -492,9 +497,7 @@ function App() {
             </button>
           </div>
           
-          {/* Navegación Inteligente: Desktop Alineado Derecha, Mobile Scroll Lateral */}
           <nav className="relative overflow-hidden md:overflow-visible flex items-center">
-            {/* Contenedor de scroll sólo para móvil */}
             <div className="flex items-center gap-4 md:gap-12 overflow-x-auto md:overflow-x-visible no-scrollbar scroll-smooth whitespace-nowrap px-4 md:px-0 md:justify-end">
               {(['Inicio', 'Catálogo', 'Financiación', 'Vendé tu Auto'] as const).map((page) => (
                 <button 
@@ -509,7 +512,6 @@ function App() {
                 </button>
               ))}
             </div>
-            {/* Sombras de desvanecimiento exclusivas para móvil */}
             <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none md:hidden"></div>
             <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none md:hidden"></div>
           </nav>
