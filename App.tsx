@@ -70,7 +70,6 @@ function App() {
   };
 
   const nextCarousel = () => {
-    // Calculamos el máximo índice para que siempre se vean 3
     const maxIndex = Math.max(0, VEHICLES.length - 3);
     setCarouselIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
@@ -173,7 +172,7 @@ function App() {
         </div>
       </section>
 
-      {/* Ítems de Categoría */}
+      {/* Ítems de Categoría - Contraste mejorado */}
       <section className="py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-12 md:gap-24">
@@ -190,8 +189,8 @@ function App() {
                 }}
                 className="flex flex-col items-center group cursor-pointer"
               >
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-[6px] border-pink-50 p-3 flex items-center justify-center transition-all duration-500 bg-white shadow-sm group-hover:shadow-md group-hover:border-[#E97D8E]">
-                  <div className="w-full h-full rounded-full bg-pink-50 flex items-center justify-center text-3xl md:text-4xl text-[#E97D8E] group-hover:bg-[#E97D8E] group-hover:text-white transition-all duration-500">
+                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-[6px] border-pink-100/50 p-3 flex items-center justify-center transition-all duration-500 bg-pink-50/50 shadow-sm group-hover:shadow-md group-hover:border-[#E97D8E] group-hover:bg-white">
+                  <div className="w-full h-full rounded-full bg-white shadow-inner flex items-center justify-center text-3xl md:text-4xl text-[#E97D8E] group-hover:bg-[#E97D8E] group-hover:text-white transition-all duration-500 border border-pink-50">
                     <i className={`fa-solid ${cat.icon}`}></i>
                   </div>
                 </div>
@@ -204,7 +203,7 @@ function App() {
         </div>
       </section>
 
-      {/* Carrusel de Unidades Recomendadas - SITUADO ARRIBA */}
+      {/* Carrusel de Unidades Recomendadas */}
       <section className="max-w-7xl mx-auto px-4 py-24 overflow-hidden border-t-2 border-pink-50 bg-white">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
           <div>
@@ -243,13 +242,9 @@ function App() {
             ))}
           </div>
         </div>
-
-        <div className="mt-16 text-center">
-           <button onClick={() => navigateToPage('Catálogo')} className="bg-gray-900 text-white px-12 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs hover:bg-[#E97D8E] transition-all shadow-xl">Ver Todo el Inventario</button>
-        </div>
       </section>
 
-      {/* Sección Vendedores - SITUADO DEBAJO */}
+      {/* Sección Vendedores */}
       <section className="py-24 bg-pink-50/30 border-t-2 border-pink-50">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h3 className="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-16">
@@ -511,22 +506,21 @@ function App() {
               <div>
                 <h4 className="text-[#E97D8E] font-black text-xs uppercase tracking-[0.3em] mb-10">Contacto</h4>
                 <p className="text-[15px] text-gray-400 font-bold leading-relaxed">
-                  Av. Castro Barros 1500<br/>
-                  Córdoba, Argentina<br/>
+                  Bv. Los Granaderos 2565, Córdoba<br/>
                   <span className="text-white block mt-6 text-xl font-black">+54 351 000 0000</span>
                 </p>
               </div>
             </div>
             <div className="rounded-[3rem] overflow-hidden h-60 border-4 border-gray-800 shadow-2xl">
                <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.6565!2d-64.19!3d-31.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x943298f3b1e7e0d7%3A0xdfa326fad25a2c04!2sFerez%20Automotores!5e0!3m2!1ses!2sar!4v1700000000000" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3273.302132778823!2d-64.2078185!3d-31.376544799999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432997204ba0603%3A0x5955f369d6f3cc7e!2sAutodream!5e1!3m2!1ses!2sar!4v1768559380426!5m2!1ses!2sar" 
                 className="w-full h-full grayscale opacity-50 hover:opacity-100 transition-opacity" 
                 loading="lazy"
               ></iframe>
             </div>
           </div>
           <div className="text-center pt-16 border-t-2 border-gray-800 text-[11px] font-black text-gray-600 uppercase tracking-[0.5em]">
-            © 2025 AUTODREAM | Córdoba, Argentina
+            © 2026 AUTODREAM | Córdoba, Argentina
           </div>
         </div>
       </footer>
