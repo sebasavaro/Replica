@@ -207,7 +207,6 @@ function App() {
         </div>
       </section>
 
-      {/* Unidades Destacadas con Carrusel Ajustado para Simetría Total */}
       <section className="max-w-7xl mx-auto px-4 py-24 overflow-hidden border-t-2 border-pink-50 bg-white">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
           <div>
@@ -265,9 +264,14 @@ function App() {
                 </div>
                 <p className="mt-8 font-black text-lg text-gray-900 uppercase tracking-tight">{seller.name}</p>
                 <div className="flex gap-4 mt-4">
-                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#E97D8E] shadow-md hover:bg-[#E97D8E] hover:text-white transition-all cursor-pointer">
+                  <a 
+                    href="https://wa.me/5493512049028?text=Hola!%20Estoy%20interesado%20en%20un%20veh%C3%ADculo" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#E97D8E] shadow-md hover:bg-[#E97D8E] hover:text-white transition-all cursor-pointer"
+                  >
                     <i className="fa-brands fa-whatsapp text-xl"></i>
-                  </div>
+                  </a>
                   <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#E97D8E] shadow-md hover:bg-[#E97D8E] hover:text-white transition-all cursor-pointer">
                     <i className="fa-brands fa-instagram text-xl"></i>
                   </div>
@@ -332,7 +336,12 @@ function App() {
                 </div>
               ))}
             </div>
-            <a href={`https://wa.me/549351000000?text=Hola! Consulto por el ${selectedVehicle.brand} ${selectedVehicle.model}`} target="_blank" className="block w-full bg-[#E97D8E] text-white text-center font-black py-7 rounded-[2rem] shadow-xl hover:bg-gray-900 hover:shadow-gray-200 transition-all uppercase tracking-[0.2em] text-lg group">
+            <a 
+              href={`https://wa.me/5493512049028?text=Hola!%20Consulto%20por%20el%20${encodeURIComponent(selectedVehicle.brand)}%20${encodeURIComponent(selectedVehicle.model)}`} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block w-full bg-[#E97D8E] text-white text-center font-black py-7 rounded-[2rem] shadow-xl hover:bg-gray-900 hover:shadow-gray-200 transition-all uppercase tracking-[0.2em] text-lg group"
+            >
               <i className="fa-brands fa-whatsapp mr-3 text-2xl group-hover:scale-125 transition-transform"></i> Consultar Ahora
             </a>
           </div>
@@ -379,9 +388,13 @@ function App() {
             <h2 className="text-5xl md:text-7xl font-black text-gray-900 uppercase tracking-tighter mb-6">Pasos para financiar</h2>
             <div className="h-2 w-28 bg-[#E97D8E] mx-auto rounded-full"></div>
           </div>
-          <div className="flex flex-col md:flex-row gap-16 relative">
-            <div className="hidden md:block absolute left-[23px] top-6 bottom-6 w-1 bg-pink-100/50"></div>
-            <div className="space-y-20 w-full">
+          
+          <div className="relative max-w-4xl mx-auto">
+            {/* Línea vertical central mejorada */}
+            <div className="absolute left-[28px] md:left-1/2 md:-translate-x-1/2 top-10 bottom-10 w-1 bg-gradient-to-b from-pink-50 via-pink-200 to-pink-50 hidden md:block"></div>
+            <div className="absolute left-[28px] top-10 bottom-10 w-1 bg-pink-100 md:hidden"></div>
+
+            <div className="space-y-16">
               {[
                 { n: "1", t: "Elegí tu auto", d: "Explorá nuestro catálogo de unidades seleccionadas y elegí la que mejor se adapte a tu estilo de vida.", i: "fa-car-side" },
                 { n: "2", t: "Seleccioná el plan", d: "Disponemos de Créditos UVA, Prendarios y Financiación propia. Elegí la cuota que te quede cómoda.", i: "fa-calculator" },
@@ -390,21 +403,31 @@ function App() {
                 { n: "5", t: "Firma y Cierre", d: "Revisamos las condiciones finales y firmamos la documentación para asegurar tu transparencia total.", i: "fa-file-signature" },
                 { n: "6", t: "¡Retiro de Unidad!", d: "¡Felicidades! Ya podés subirte a tu auto y empezar a disfrutarlo. Entrega inmediata garantizada.", i: "fa-key" }
               ].map((step, idx) => (
-                <div key={idx} className="flex gap-10 group">
-                  <div className="relative z-10 flex-shrink-0">
-                    <div className="w-14 h-14 bg-white border-4 border-[#E97D8E] group-hover:bg-[#E97D8E] rotate-45 flex items-center justify-center transition-all duration-500 shadow-xl">
-                      <span className="-rotate-45 text-gray-900 group-hover:text-white font-black text-xl">{step.n}</span>
+                <div key={idx} className={`flex items-center gap-8 md:gap-0 relative ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                  {/* Contenido del paso */}
+                  <div className="flex-1 md:w-1/2">
+                    <div className={`bg-pink-50/30 p-8 rounded-[2.5rem] border-2 border-transparent hover:border-pink-200 hover:bg-white hover:shadow-xl transition-all duration-500 group ${idx % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
+                      <div className="flex items-center gap-6">
+                        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md border-2 border-pink-50 text-2xl text-[#E97D8E] flex-shrink-0 group-hover:scale-110 transition-transform">
+                          <i className={`fa-solid ${step.i}`}></i>
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight mb-2">{step.t}</h3>
+                          <p className="text-gray-600 font-bold leading-relaxed text-sm">{step.d}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row gap-8 flex-1 items-start md:items-center bg-pink-50/20 p-10 rounded-[3rem] border-2 border-transparent hover:border-pink-200 hover:bg-white hover:shadow-[0_25px_50px_-15px_rgba(0,0,0,0.1)] transition-all duration-500">
-                    <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-md border-2 border-pink-50 text-3xl text-[#E97D8E]">
-                      <i className={`fa-solid ${step.i}`}></i>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight mb-3">{step.t}</h3>
-                      <p className="text-gray-600 font-bold leading-relaxed text-base md:text-lg">{step.d}</p>
+
+                  {/* Rombo Central - Posicionamiento absoluto para alineación perfecta */}
+                  <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex items-center justify-center z-10">
+                    <div className="w-14 h-14 bg-white border-4 border-[#E97D8E] rotate-45 flex items-center justify-center shadow-lg hover:bg-[#E97D8E] group transition-all duration-300">
+                      <span className="-rotate-45 text-gray-900 group-hover:text-white font-black text-lg">{step.n}</span>
                     </div>
                   </div>
+                  
+                  {/* Espaciador para desktop */}
+                  <div className="hidden md:block md:w-1/2"></div>
                 </div>
               ))}
             </div>
