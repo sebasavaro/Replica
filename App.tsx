@@ -207,6 +207,7 @@ function App() {
         </div>
       </section>
 
+      {/* Unidades Destacadas con Carrusel Ajustado para Simetría Total */}
       <section className="max-w-7xl mx-auto px-4 py-24 overflow-hidden border-t-2 border-pink-50 bg-white">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
           <div>
@@ -233,11 +234,17 @@ function App() {
 
         <div className="relative">
           <div 
-            className="flex transition-transform duration-700 ease-out gap-8"
-            style={{ transform: `translateX(-${carouselIndex * (100 / 3 + 0.8)}%)` }}
+            className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
+            style={{ 
+              gap: '2rem',
+              transform: `translateX(calc(-${carouselIndex} * (100% / 3 + 2rem / 3)))` 
+            }}
           >
             {VEHICLES.map((v) => (
-              <div key={v.id} className="min-w-full md:min-w-[calc(33.333%-22px)]">
+              <div 
+                key={v.id} 
+                className="min-w-full md:min-w-[calc(100%/3-4rem/3)]"
+              >
                 <VehicleCard vehicle={v} onSelect={navigateToDetail} />
               </div>
             ))}

@@ -23,24 +23,24 @@ export const VEHICLES: Vehicle[] = [
   },
   {
     id: 'M2023',
-    brand: 'Honda',
-    model: 'CB 250 Twister',
-    year: 2023,
+    brand: 'Bajaj',
+    model: 'Rouser 200',
+    year: 2024,
     price: 5800000,
     currency: 'ARS',
-    kilometers: 1200,
+    kilometers: 1800,
     fuel: 'Nafta',
     transmission: 'Manual',
     images: [
-      'https://images.unsplash.com/photo-1558981403-c5f91cbba527?auto=format&fit=crop&q=80&w=800',
+      '1ztydiORv6PI-8PtQP5W2uG0zhGF3o5KK',
       'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=800'
     ],
     category: 'Moto'
   },
   {
     id: 'P2090',
-    brand: 'Fiat',
-    model: 'Toro Freedom 4x2 1.8',
+    brand: 'Volkswagen',
+    model: 'Amarok',
     year: 2018,
     price: 24900000,
     currency: 'ARS',
@@ -48,7 +48,7 @@ export const VEHICLES: Vehicle[] = [
     fuel: 'Nafta y GNC',
     transmission: 'Automática',
     images: [
-      'https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=800',
+      '1CAfdRVFN2aKabi-aEgDNBBPaWNmsi_TI',
       'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800',
       'https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&q=80&w=800'
     ],
