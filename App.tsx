@@ -36,10 +36,19 @@ function App() {
 
   const [sortOrder, setSortOrder] = useState('aleatorio');
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage, selectedVehicle]);
+
+  // Detector de tamaño de pantalla para el carrusel
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const directLogoUrl = getDirectImageUrl(BRAND_LOGO_URL);
 
@@ -75,12 +84,14 @@ function App() {
   };
 
   const nextCarousel = () => {
-    const maxIndex = Math.max(0, VEHICLES.length - 3);
+    const visibleCards = isMobile ? 1 : 3;
+    const maxIndex = Math.max(0, VEHICLES.length - visibleCards);
     setCarouselIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const prevCarousel = () => {
-    const maxIndex = Math.max(0, VEHICLES.length - 3);
+    const visibleCards = isMobile ? 1 : 3;
+    const maxIndex = Math.max(0, VEHICLES.length - visibleCards);
     setCarouselIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
@@ -186,7 +197,8 @@ function App() {
 
       <section className="py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-12 md:gap-24">
+          {/* Se cambió flex por grid en móviles para alineación perfecta 2x2 */}
+          <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center items-start gap-8 md:gap-24 justify-items-center">
             {CIRCULAR_CATEGORIES.map((cat, i) => (
               <div 
                 key={i} 
@@ -194,18 +206,18 @@ function App() {
                   if (cat.name === 'Autos' || cat.name === 'Motos') {
                     setFilters({...filters, category: cat.name});
                     navigateToPage('Catálogo');
-                  } else if (cat.name === 'Financiación') {
+                  } else if (cat.name === 'Financiación' || cat.name === 'Bancos') {
                     navigateToPage('Financiación');
                   }
                 }}
-                className="flex flex-col items-center group cursor-pointer"
+                className="flex flex-col items-center group cursor-pointer w-full max-w-[140px]"
               >
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-[6px] border-pink-100/50 p-3 flex items-center justify-center transition-all duration-500 bg-pink-50/50 shadow-sm group-hover:shadow-md group-hover:border-[#E97D8E] group-hover:bg-white">
                   <div className="w-full h-full rounded-full bg-white shadow-inner flex items-center justify-center text-3xl md:text-4xl text-[#E97D8E] group-hover:bg-[#E97D8E] group-hover:text-white transition-all duration-500 border border-pink-50">
                     <i className={`fa-solid ${cat.icon}`}></i>
                   </div>
                 </div>
-                <span className="mt-6 font-black text-xs uppercase tracking-[0.2em] text-gray-600 group-hover:text-[#E97D8E] transition-colors">
+                <span className="mt-6 font-black text-[10px] md:text-xs uppercase tracking-[0.2em] text-gray-600 group-hover:text-[#E97D8E] transition-colors text-center">
                   {cat.name}
                 </span>
               </div>
@@ -218,7 +230,7 @@ function App() {
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-8 text-center md:text-left">
           <div>
             <span className="text-[#E97D8E] font-black uppercase tracking-[0.3em] text-xs mb-3 block">Recomendados para vos</span>
-            <h2 className="text-5xl font-black text-gray-900 uppercase tracking-tighter mb-4">Unidades Destacadas</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter mb-4">Unidades Destacadas</h2>
             <div className="h-2 w-24 bg-[#E97D8E] rounded-full mx-auto md:mx-0"></div>
           </div>
           
@@ -243,7 +255,9 @@ function App() {
             className="flex transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
             style={{ 
               gap: '2rem',
-              transform: `translateX(calc(-${carouselIndex} * (100% / 3 + 2rem / 3)))` 
+              transform: isMobile 
+                ? `translateX(calc(-${carouselIndex} * (100% + 2rem)))`
+                : `translateX(calc(-${carouselIndex} * (100% / 3 + 2rem / 3)))` 
             }}
           >
             {VEHICLES.map((v) => (
@@ -329,22 +343,22 @@ function App() {
           <div className="space-y-12">
             <div>
               <span className="bg-[#E97D8E] text-white px-5 py-2 rounded-full text-[12px] font-black uppercase tracking-[0.2em] shadow-lg inline-block mb-6">{selectedVehicle.category}</span>
-              <h1 className="text-7xl font-black text-gray-900 uppercase tracking-tighter leading-[0.85]">
+              <h1 className="text-4xl md:text-7xl font-black text-gray-900 uppercase tracking-tighter leading-[0.85]">
                 {selectedVehicle.brand} <br/><span className="text-[#E97D8E]">{selectedVehicle.model}</span>
               </h1>
             </div>
-            <p className="text-6xl font-black text-gray-900 tracking-tighter flex items-center">
+            <p className="text-4xl md:text-6xl font-black text-gray-900 tracking-tighter flex items-center">
               <span className="text-3xl font-black text-[#E97D8E] mr-3">{selectedVehicle.currency === 'USD' ? 'USD' : '$'}</span>
               {selectedVehicle.price.toLocaleString()}
             </p>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 gap-4 md:gap-6">
               {[{l:'Año', v:selectedVehicle.year, i:'fa-calendar'}, {l:'Kilometraje', v:selectedVehicle.kilometers.toLocaleString() + ' km', i:'fa-road'}, {l:'Combustible', v:selectedVehicle.fuel, i:'fa-gas-pump'}, {l:'Transmisión', v:selectedVehicle.transmission, i:'fa-gears'}].map((it, i) => (
-                <div key={i} className="bg-white p-8 rounded-[2.5rem] border-2 border-pink-50 shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-center gap-3 mb-3">
-                    <i className={`fa-solid ${it.i} text-[#E97D8E] text-lg`}></i>
-                    <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest">{it.l}</p>
+                <div key={i} className="bg-white p-4 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] border-2 border-pink-50 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-3 mb-2 md:mb-3">
+                    <i className={`fa-solid ${it.i} text-[#E97D8E] text-sm md:text-lg`}></i>
+                    <p className="text-[9px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest">{it.l}</p>
                   </div>
-                  <p className="text-2xl font-black text-gray-900">{it.v}</p>
+                  <p className="text-sm md:text-2xl font-black text-gray-900">{it.v}</p>
                 </div>
               ))}
             </div>
@@ -352,9 +366,9 @@ function App() {
               href={`https://wa.me/5493512049028?text=Hola!%20Consulto%20por%20el%20${encodeURIComponent(selectedVehicle.brand)}%20${encodeURIComponent(selectedVehicle.model)}`} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block w-full bg-[#E97D8E] text-white text-center font-black py-7 rounded-[2rem] shadow-xl hover:bg-gray-900 hover:shadow-gray-200 transition-all uppercase tracking-[0.2em] text-lg group"
+              className="block w-full bg-[#E97D8E] text-white text-center font-black py-5 md:py-7 rounded-[1.5rem] md:rounded-[2rem] shadow-xl hover:bg-gray-900 hover:shadow-gray-200 transition-all uppercase tracking-[0.2em] text-sm md:text-lg group"
             >
-              <i className="fa-brands fa-whatsapp mr-3 text-2xl group-hover:scale-125 transition-transform"></i> Consultar Ahora
+              <i className="fa-brands fa-whatsapp mr-3 text-xl md:text-2xl group-hover:scale-125 transition-transform"></i> Consultar Ahora
             </a>
           </div>
         </div>
@@ -375,21 +389,21 @@ function App() {
         </div>
         <div className="container mx-auto px-6 relative z-10 text-white max-w-7xl">
           <div className="max-w-4xl animate-in slide-in-from-left duration-1000">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95] tracking-tighter mb-10 overflow-visible">
+            <h2 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95] tracking-tighter mb-10 overflow-visible">
               FINANCIÁ TU <br/><span className="text-[#E97D8E]">NUEVO AUTO</span>
             </h2>
-            <p className="text-xl md:text-2xl mb-14 font-medium text-gray-200 leading-relaxed max-w-lg drop-shadow-md">
+            <p className="text-lg md:text-2xl mb-14 font-medium text-gray-200 leading-relaxed max-w-lg drop-shadow-md">
               Alcanzá el vehículo que querés con planes a tu medida. Trabajamos con los bancos líderes para brindarte la mejor tasa del mercado.
             </p>
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-4 md:gap-6">
               <a 
                 href="#pasos-financia" 
-                className="bg-[#E97D8E] text-white px-12 py-5 rounded-full font-black uppercase tracking-[0.2em] hover:bg-white hover:text-[#E97D8E] transition-all border-2 border-[#E97D8E] shadow-xl text-sm active:scale-95"
+                className="bg-[#E97D8E] text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-black uppercase tracking-[0.2em] hover:bg-white hover:text-[#E97D8E] transition-all border-2 border-[#E97D8E] shadow-xl text-xs md:text-sm active:scale-95"
               >
                 Ver Proceso
               </a>
               <button 
-                className="bg-white/10 backdrop-blur-xl border-2 border-white/40 text-white px-12 py-5 rounded-full font-black uppercase tracking-[0.2em] hover:bg-white hover:text-[#E97D8E] transition-all shadow-xl text-sm active:scale-95"
+                className="bg-white/10 backdrop-blur-xl border-2 border-white/40 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-black uppercase tracking-[0.2em] hover:bg-white hover:text-[#E97D8E] transition-all shadow-xl text-xs md:text-sm active:scale-95"
               >
                 Simular Crédito
               </button>
@@ -398,11 +412,11 @@ function App() {
         </div>
       </section>
 
-      <section id="pasos-financia" className="py-32 bg-white">
+      <section id="pasos-financia" className="py-20 md:py-32 bg-white">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-24">
-            <span className="text-[#E97D8E] font-black uppercase tracking-[0.4em] text-xs mb-4 block">Gestión Ágil</span>
-            <h2 className="text-5xl md:text-7xl font-black text-gray-900 uppercase tracking-tighter mb-6">Pasos para financiar</h2>
+          <div className="text-center mb-16 md:mb-24">
+            <span className="text-[#E97D8E] font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-4 block">Gestión Ágil</span>
+            <h2 className="text-4xl md:text-7xl font-black text-gray-900 uppercase tracking-tighter mb-6">Pasos para financiar</h2>
             <div className="h-2 w-28 bg-[#E97D8E] mx-auto rounded-full"></div>
           </div>
           
@@ -410,7 +424,7 @@ function App() {
             <div className="absolute left-[28px] md:left-1/2 md:-translate-x-1/2 top-10 bottom-10 w-1 bg-gradient-to-b from-pink-50 via-pink-200 to-pink-50 hidden md:block"></div>
             <div className="absolute left-[28px] top-10 bottom-10 w-1 bg-pink-100 md:hidden"></div>
 
-            <div className="space-y-16">
+            <div className="space-y-12 md:space-y-16">
               {[
                 { n: "1", t: "Elegí tu auto", d: "Explorá nuestro catálogo de unidades seleccionadas y elegí la que mejor se adapte a tu estilo de vida.", i: "fa-car-side" },
                 { n: "2", t: "Seleccioná el plan", d: "Disponemos de Créditos UVA, Prendarios y Financiación propia. Elegí la cuota que te quede cómoda.", i: "fa-calculator" },
@@ -421,22 +435,22 @@ function App() {
               ].map((step, idx) => (
                 <div key={idx} className={`flex items-center gap-8 md:gap-0 relative ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
                   <div className="flex-1 md:w-1/2">
-                    <div className={`bg-pink-50/30 p-8 rounded-[2.5rem] border-2 border-transparent hover:border-pink-200 hover:bg-white hover:shadow-xl transition-all duration-500 group ${idx % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
-                      <div className="flex items-center gap-6">
-                        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md border-2 border-pink-50 text-2xl text-[#E97D8E] flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <div className={`bg-pink-50/30 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] border-2 border-transparent hover:border-pink-200 hover:bg-white hover:shadow-xl transition-all duration-500 group ${idx % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
+                      <div className="flex items-center gap-4 md:gap-6">
+                        <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-xl md:rounded-2xl flex items-center justify-center shadow-md border-2 border-pink-50 text-xl md:text-2xl text-[#E97D8E] flex-shrink-0 group-hover:scale-110 transition-transform">
                           <i className={`fa-solid ${step.i}`}></i>
                         </div>
                         <div>
-                          <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight mb-2">{step.t}</h3>
-                          <p className="text-gray-600 font-bold leading-relaxed text-sm">{step.d}</p>
+                          <h3 className="text-sm md:text-xl font-black text-gray-900 uppercase tracking-tight mb-1 md:mb-2">{step.t}</h3>
+                          <p className="text-gray-600 font-bold leading-relaxed text-[11px] md:text-sm">{step.d}</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 flex items-center justify-center z-10">
-                    <div className="w-14 h-14 bg-white border-4 border-[#E97D8E] rotate-45 flex items-center justify-center shadow-lg hover:bg-[#E97D8E] group transition-all duration-300">
-                      <span className="-rotate-45 text-gray-900 group-hover:text-white font-black text-lg">{step.n}</span>
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white border-4 border-[#E97D8E] rotate-45 flex items-center justify-center shadow-lg hover:bg-[#E97D8E] group transition-all duration-300">
+                      <span className="-rotate-45 text-gray-900 group-hover:text-white font-black text-xs md:text-lg">{step.n}</span>
                     </div>
                   </div>
                   
@@ -451,35 +465,35 @@ function App() {
   );
 
   const renderVende = () => (
-    <div className="max-w-4xl mx-auto px-4 py-32 text-center animate-in zoom-in-95 duration-500">
-      <div className="mb-16">
-        <div className="w-32 h-32 bg-pink-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
-          <i className="fa-solid fa-car-side text-6xl text-[#E97D8E]"></i>
+    <div className="max-w-4xl mx-auto px-4 py-20 md:py-32 text-center animate-in zoom-in-95 duration-500">
+      <div className="mb-12 md:mb-16">
+        <div className="w-24 h-24 md:w-32 md:h-32 bg-pink-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+          <i className="fa-solid fa-car-side text-4xl md:text-6xl text-[#E97D8E]"></i>
         </div>
-        <h2 className="text-6xl font-black uppercase tracking-tighter mb-8">Tasamos tu Vehículo</h2>
-        <p className="text-2xl text-gray-500 font-bold mb-12">Tomamos tu usado al mejor precio del mercado como parte de pago o compra directa.</p>
+        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 md:mb-8">Tasamos tu Vehículo</h2>
+        <p className="text-lg md:text-2xl text-gray-500 font-bold mb-8 md:mb-12">Tomamos tu usado al mejor precio del mercado como parte de pago o compra directa.</p>
       </div>
-      <div className="bg-white p-16 rounded-[4rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] border-2 border-pink-50 max-w-2xl mx-auto">
-        <form className="space-y-8 text-left" onSubmit={(e) => e.preventDefault()}>
+      <div className="bg-white p-8 md:p-16 rounded-[2.5rem] md:rounded-[4rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] border-2 border-pink-50 max-w-2xl mx-auto">
+        <form className="space-y-6 md:space-y-8 text-left" onSubmit={(e) => e.preventDefault()}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Marca</label>
-              <input type="text" placeholder="Ej: Toyota" className="bg-gray-50 border-2 border-gray-100 p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full font-bold shadow-inner" />
+              <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Marca</label>
+              <input type="text" placeholder="Ej: Toyota" className="bg-gray-50 border-2 border-gray-100 p-4 md:p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full font-bold shadow-inner" />
             </div>
             <div className="space-y-2">
-              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Modelo</label>
-              <input type="text" placeholder="Ej: Hilux" className="bg-gray-50 border-2 border-gray-100 p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full font-bold shadow-inner" />
+              <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Modelo</label>
+              <input type="text" placeholder="Ej: Hilux" className="bg-gray-50 border-2 border-gray-100 p-4 md:p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full font-bold shadow-inner" />
             </div>
           </div>
           <div className="space-y-2">
-            <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Año del vehículo</label>
-            <input type="number" placeholder="Ej: 2020" className="bg-gray-50 border-2 border-gray-100 p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full font-bold shadow-inner" />
+            <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Año del vehículo</label>
+            <input type="number" placeholder="Ej: 2020" className="bg-gray-50 border-2 border-gray-100 p-4 md:p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full font-bold shadow-inner" />
           </div>
           <div className="space-y-2">
-            <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Detalles adicionales</label>
-            <textarea placeholder="Contanos el estado, kilómetros y equipamiento..." className="bg-gray-50 border-2 border-gray-100 p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full h-40 font-bold shadow-inner"></textarea>
+            <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest ml-4">Detalles adicionales</label>
+            <textarea placeholder="Contanos el estado, kilómetros y equipamiento..." className="bg-gray-50 border-2 border-gray-100 p-4 md:p-5 rounded-2xl outline-none focus:border-[#E97D8E] focus:bg-white w-full h-32 md:h-40 font-bold shadow-inner"></textarea>
           </div>
-          <button className="w-full bg-gray-900 text-white font-black py-6 rounded-2xl hover:bg-[#E97D8E] transition-all uppercase tracking-[0.3em] text-sm shadow-xl">Enviar Solicitud <i className="fa-solid fa-paper-plane ml-2"></i></button>
+          <button className="w-full bg-gray-900 text-white font-black py-5 md:py-6 rounded-2xl hover:bg-[#E97D8E] transition-all uppercase tracking-[0.3em] text-xs md:text-sm shadow-xl">Enviar Solicitud <i className="fa-solid fa-paper-plane ml-2"></i></button>
         </form>
       </div>
     </div>
@@ -517,8 +531,6 @@ function App() {
                 </button>
               ))}
             </div>
-            <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none md:hidden"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none md:hidden"></div>
           </nav>
         </div>
       </header>
@@ -529,22 +541,22 @@ function App() {
         {currentPage === 'Financiación' && renderFinanciacion()}
         {currentPage === 'Vendé tu Auto' && renderVende()}
       </div>
-      <footer className="bg-gray-900 text-white pt-32 pb-16 rounded-t-[4rem] md:rounded-t-[6rem] mt-32 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
+      <footer className="bg-gray-900 text-white pt-20 md:pt-32 pb-12 md:pb-16 rounded-t-[3rem] md:rounded-t-[6rem] mt-20 md:mt-32 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
         <div className="max-w-7xl mx-auto px-4 text-center md:text-left">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 mb-24">
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24 mb-16 md:mb-24">
+            <div className="space-y-6 md:space-y-8">
               <div className="flex items-center gap-4 justify-center md:justify-start">
-                <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center p-0.5 overflow-hidden shadow-xl">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center p-0.5 overflow-hidden shadow-xl">
                   <img src={directLogoUrl} className="w-full h-full object-cover rounded-full" />
                 </div>
-                <span className="text-3xl font-black uppercase tracking-tighter">AUTODREAM</span>
+                <span className="text-2xl md:text-3xl font-black uppercase tracking-tighter">AUTODREAM</span>
               </div>
-              <p className="text-gray-400 font-bold text-lg max-w-sm mx-auto md:mx-0 leading-relaxed">Donde tus sueños se ponen en marcha. Líderes en vehículos seleccionados en Córdoba.</p>
+              <p className="text-gray-400 font-bold text-sm md:text-lg max-w-sm mx-auto md:mx-0 leading-relaxed">Donde tus sueños se ponen en marcha. Líderes en vehículos seleccionados en Córdoba.</p>
             </div>
             <div className="grid grid-cols-2 gap-8 md:gap-12">
               <div>
-                <h4 className="text-[#E97D8E] font-black text-xs uppercase tracking-[0.3em] mb-6 md:mb-10">Explorar</h4>
-                <ul className="space-y-4 md:space-y-6 text-[14px] md:text-[15px] text-gray-400 font-bold">
+                <h4 className="text-[#E97D8E] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] mb-6 md:mb-10">Explorar</h4>
+                <ul className="space-y-3 md:space-y-6 text-[12px] md:text-[15px] text-gray-400 font-bold">
                   <li><button onClick={() => navigateToPage('Inicio')} className="hover:text-white transition-colors">Inicio</button></li>
                   <li><button onClick={() => navigateToPage('Catálogo')} className="hover:text-white transition-colors">Catálogo</button></li>
                   <li><button onClick={() => navigateToPage('Financiación')} className="hover:text-white transition-colors">Financiación</button></li>
@@ -552,14 +564,14 @@ function App() {
                 </ul>
               </div>
               <div>
-                <h4 className="text-[#E97D8E] font-black text-xs uppercase tracking-[0.3em] mb-6 md:mb-10">Contacto</h4>
-                <p className="text-[14px] md:text-[15px] text-gray-400 font-bold leading-relaxed">
+                <h4 className="text-[#E97D8E] font-black text-[10px] md:text-xs uppercase tracking-[0.3em] mb-6 md:mb-10">Contacto</h4>
+                <p className="text-[12px] md:text-[15px] text-gray-400 font-bold leading-relaxed">
                   Bv. Los Granaderos 2565, Córdoba<br/>
-                  <span className="text-white block mt-4 md:mt-6 text-lg md:text-xl font-black">+54 351 000 0000</span>
+                  <span className="text-white block mt-4 md:mt-6 text-base md:text-xl font-black">+54 351 000 0000</span>
                 </p>
               </div>
             </div>
-            <div className="rounded-[2rem] md:rounded-[3rem] overflow-hidden h-48 md:h-60 border-4 border-gray-800 shadow-2xl">
+            <div className="rounded-[1.5rem] md:rounded-[3rem] overflow-hidden h-40 md:h-60 border-4 border-gray-800 shadow-2xl">
                <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3273.302132778823!2d-64.2078185!3d-31.376544799999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9432997204ba0603%3A0x5955f369d6f3cc7e!2sAutodream!5e1!3m2!1ses!2sar!4v1768559380426!5m2!1ses!2sar" 
                 className="w-full h-full grayscale opacity-50 hover:opacity-100 transition-opacity" 
@@ -567,7 +579,7 @@ function App() {
               ></iframe>
             </div>
           </div>
-          <div className="text-center pt-16 border-t-2 border-gray-800 text-[10px] md:text-[11px] font-black text-gray-600 uppercase tracking-[0.3em] md:tracking-[0.5em]">
+          <div className="text-center pt-12 md:pt-16 border-t-2 border-gray-800 text-[9px] md:text-[11px] font-black text-gray-600 uppercase tracking-[0.2em] md:tracking-[0.5em]">
             © 2026 AUTODREAM | Córdoba, Argentina
           </div>
         </div>
