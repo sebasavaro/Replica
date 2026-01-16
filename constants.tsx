@@ -14,7 +14,11 @@ export const VEHICLES: Vehicle[] = [
     kilometers: 180689,
     fuel: 'Diesel',
     transmission: 'Automática',
-    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800',
+    images: [
+      'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=800'
+    ],
     category: 'Auto'
   },
   {
@@ -27,7 +31,10 @@ export const VEHICLES: Vehicle[] = [
     kilometers: 1200,
     fuel: 'Nafta',
     transmission: 'Manual',
-    image: 'https://images.unsplash.com/photo-1558981403-c5f91cbba527?auto=format&fit=crop&q=80&w=800',
+    images: [
+      'https://images.unsplash.com/photo-1558981403-c5f91cbba527?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?auto=format&fit=crop&q=80&w=800'
+    ],
     category: 'Moto'
   },
   {
@@ -40,7 +47,11 @@ export const VEHICLES: Vehicle[] = [
     kilometers: 231594,
     fuel: 'Nafta y GNC',
     transmission: 'Automática',
-    image: 'https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=800',
+    images: [
+      'https://images.unsplash.com/photo-1594502184342-2e12f877aa73?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&q=80&w=800'
+    ],
     category: 'Auto'
   },
   {
@@ -53,7 +64,10 @@ export const VEHICLES: Vehicle[] = [
     kilometers: 0,
     fuel: 'Nafta',
     transmission: 'Manual',
-    image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?auto=format&fit=crop&q=80&w=800',
+    images: [
+      'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?auto=format&fit=crop&q=80&w=800',
+      'https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&q=80&w=800'
+    ],
     category: 'Moto'
   }
 ];

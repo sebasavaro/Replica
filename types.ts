@@ -9,7 +9,7 @@ export interface Vehicle {
   kilometers: number;
   fuel: string;
   transmission: 'Manual' | 'Automática';
-  image: string;
+  images: string[]; // Cambiado de image a images
   category: string;
 }
 
