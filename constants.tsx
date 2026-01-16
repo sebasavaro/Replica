@@ -82,6 +82,14 @@ export const CIRCULAR_CATEGORIES = [
 ];
 
 export const SELLERS = [
-  { name: 'Andrés', image: 'https://44653809.fs1.hubspotusercontent-na1.net/hubfs/44653809/cualidades-para-ser-un-empresario-exitoso.jpg' },
-  { name: 'Rodrigo', image: 'https://st2.depositphotos.com/3889193/8014/i/450/depositphotos_80142372-stock-photo-confident-businessman-posing-at-desk.jpg' }
+  { 
+    name: 'Andrés', 
+    image: 'https://44653809.fs1.hubspotusercontent-na1.net/hubfs/44653809/cualidades-para-ser-un-empresario-exitoso.jpg',
+    instagram: 'https://www.instagram.com/andy.olavarria/'
+  },
+  { 
+    name: 'Rodrigo', 
+    image: 'https://st2.depositphotos.com/3889193/8014/i/450/depositphotos_80142372-stock-photo-confident-businessman-posing-at-desk.jpg',
+    instagram: 'https://www.instagram.com/autodream.ok/' 
+  }
 ];

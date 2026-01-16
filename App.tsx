@@ -170,7 +170,7 @@ function App() {
         
         <div className="relative z-10 text-center text-white px-4 max-w-5xl">
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase mb-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] tracking-tighter leading-[1.1]">
-            Donde tus sueños <br/> <span className="text-[#E97D8E] italic">se ponen en marcha</span>
+            Donde tus sueños <br/> <span className="text-[#E97D8E]">se ponen en marcha</span>
           </h2>
           <p className="text-lg md:text-xl mb-12 max-w-3xl mx-auto font-bold leading-relaxed text-gray-100 drop-shadow-md">
             En Autodream transformamos la búsqueda de tu vehículo en una experiencia placentera. Calidad certificada y atención personalizada.
@@ -279,9 +279,14 @@ function App() {
                   >
                     <i className="fa-brands fa-whatsapp text-xl"></i>
                   </a>
-                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#E97D8E] shadow-md hover:bg-[#E97D8E] hover:text-white transition-all cursor-pointer">
+                  <a 
+                    href={seller.instagram} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#E97D8E] shadow-md hover:bg-[#E97D8E] hover:text-white transition-all cursor-pointer"
+                  >
                     <i className="fa-brands fa-instagram text-xl"></i>
-                  </div>
+                  </a>
                 </div>
               </div>
             ))}
