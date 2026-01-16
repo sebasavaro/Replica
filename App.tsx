@@ -27,6 +27,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Inicio');
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [activeImgIndex, setActiveImgIndex] = useState(0); 
+  const [showBanksModal, setShowBanksModal] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     search: '',
     brand: '',
@@ -93,6 +94,58 @@ function App() {
     const visibleCards = isMobile ? 1 : 3;
     const maxIndex = Math.max(0, VEHICLES.length - visibleCards);
     setCarouselIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  };
+
+  const renderBanksModal = () => {
+    if (!showBanksModal) return null;
+    
+    const banks = [
+      { name: 'Galicia', color: 'bg-orange-500', icon: 'fa-building-columns' },
+      { name: 'Bancor', color: 'bg-teal-700', icon: 'fa-landmark' },
+      { name: 'Santander', color: 'bg-red-600', icon: 'fa-fire' },
+      { name: 'Nación', color: 'bg-cyan-700', icon: 'fa-building-columns' },
+      { name: 'BBVA', color: 'bg-blue-800', icon: 'fa-id-card' },
+      { name: 'Supervielle', color: 'bg-rose-800', icon: 'fa-feather' }
+    ];
+
+    return (
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div 
+          className="absolute inset-0 bg-black/40 backdrop-blur-md animate-in fade-in duration-300" 
+          onClick={() => setShowBanksModal(false)}
+        ></div>
+        <div className="bg-white w-full max-w-xl rounded-[3rem] p-8 md:p-12 shadow-2xl relative z-10 animate-in zoom-in-95 duration-300">
+          <button 
+            onClick={() => setShowBanksModal(false)}
+            className="absolute top-8 right-8 text-gray-400 hover:text-gray-900 transition-colors"
+          >
+            <i className="fa-solid fa-xmark text-2xl"></i>
+          </button>
+          
+          <div className="text-center mb-10">
+            <span className="text-[#E97D8E] font-black uppercase tracking-[0.3em] text-[10px] mb-2 block">Alianzas Estratégicas</span>
+            <h3 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">Bancos Amigos</h3>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+            {banks.map((bank, i) => (
+              <div key={i} className="flex flex-col items-center group">
+                <div className={`w-16 h-16 md:w-20 md:h-20 ${bank.color} rounded-full flex items-center justify-center text-white shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <i className={`fa-solid ${bank.icon} text-xl md:text-2xl`}></i>
+                </div>
+                <p className="font-black text-[11px] md:text-xs text-gray-500 uppercase tracking-widest text-center">
+                  {bank.name}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-12 text-center text-gray-400 font-bold text-[11px] leading-relaxed max-w-sm mx-auto">
+            Consulte con nuestro equipo comercial por tasas preferenciales y planes de financiación exclusivos con estas entidades.
+          </p>
+        </div>
+      </div>
+    );
   };
 
   const renderCatalogo = () => (
@@ -197,7 +250,6 @@ function App() {
 
       <section className="py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-4">
-          {/* Se cambió flex por grid en móviles para alineación perfecta 2x2 */}
           <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center items-start gap-8 md:gap-24 justify-items-center">
             {CIRCULAR_CATEGORIES.map((cat, i) => (
               <div 
@@ -206,8 +258,10 @@ function App() {
                   if (cat.name === 'Autos' || cat.name === 'Motos') {
                     setFilters({...filters, category: cat.name});
                     navigateToPage('Catálogo');
-                  } else if (cat.name === 'Financiación' || cat.name === 'Bancos') {
+                  } else if (cat.name === 'Financiación') {
                     navigateToPage('Financiación');
+                  } else if (cat.name === 'Bancos') {
+                    setShowBanksModal(true);
                   }
                 }}
                 className="flex flex-col items-center group cursor-pointer w-full max-w-[140px]"
@@ -541,6 +595,9 @@ function App() {
         {currentPage === 'Financiación' && renderFinanciacion()}
         {currentPage === 'Vendé tu Auto' && renderVende()}
       </div>
+      
+      {renderBanksModal()}
+
       <footer className="bg-gray-900 text-white pt-20 md:pt-32 pb-12 md:pb-16 rounded-t-[3rem] md:rounded-t-[6rem] mt-20 md:mt-32 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
         <div className="max-w-7xl mx-auto px-4 text-center md:text-left">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24 mb-16 md:mb-24">

@@ -8,8 +8,8 @@ export const VEHICLES: Vehicle[] = [
     id: 'P1948',
     brand: 'Renault',
     model: 'Logan',
-    year: 2024,
-    price: 33000000,
+    year: 2014,
+    price: 13000000,
     currency: 'ARS',
     kilometers: 180689,
     fuel: 'Diesel',
@@ -41,8 +41,8 @@ export const VEHICLES: Vehicle[] = [
     id: 'P2090',
     brand: 'Volkswagen',
     model: 'Amarok',
-    year: 2018,
-    price: 24900000,
+    year: 2021,
+    price: 30000000,
     currency: 'ARS',
     kilometers: 231594,
     fuel: 'Nafta y GNC',
@@ -56,19 +56,19 @@ export const VEHICLES: Vehicle[] = [
   },
   {
     id: 'M2024',
-    brand: 'BMW',
-    model: 'R 1250 GS Adventure',
-    year: 2024,
-    price: 45000,
-    currency: 'USD',
+    brand: 'Chevrolet',
+    model: 'Onix',
+    year: 2017,
+    price: 15000000,
+    currency: 'ARS',
     kilometers: 0,
     fuel: 'Nafta',
     transmission: 'Manual',
     images: [
-      'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?auto=format&fit=crop&q=80&w=800',
+      '11nr7ZY64qsSRzJlI91GAs7zDehOL34WF',
       'https://images.unsplash.com/photo-1558981285-6f0c94958bb6?auto=format&fit=crop&q=80&w=800'
     ],
-    category: 'Moto'
+    category: 'Auto'
   }
 ];
 
